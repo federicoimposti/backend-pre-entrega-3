@@ -2,7 +2,7 @@ const express = require('express');
 const carritoRouter = express.Router();
 
 const controller = require('../controllers/cart');
-const carrito = new controller('../volumes/cart.txt');
+const carrito = new controller('./volumes/cart.txt');
 
 const error = { error: 'carrito no encontrado' };
 
