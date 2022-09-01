@@ -2,7 +2,7 @@ const express = require('express');
 const productsRouter = express.Router();
 
 const controller = require('../controllers/products');
-const productos = new controller('./volumes/products.txt');
+const productos = new controller('../volumes/products.txt');
 
 const error = { error: 'Producto no encontrado' };
 

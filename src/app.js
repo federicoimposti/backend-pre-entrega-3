@@ -3,7 +3,9 @@ const app = express();
 const router = require('./routes');
 const { auth } = require('./middlewares/auth');
 
-const PORT = 8080;
+require('dotenv').config()
+
+const PORT = process.env.PORT || 8080;
 
 app.use(express.static("public"));
 app.use(express.json());
