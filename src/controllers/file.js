@@ -1,28 +1,28 @@
-const fs = require('fs');
+import fs from 'fs';
 const error = { error: 'Producto no encontrado' };
 
-module.exports = class Controller {
+class fileController {
     constructor(file) {
         this.file = file;
     }
 
     async save(obj) {
         try {
-            const products = await this.getAll();
+            const items = await this.getAll();
 
-            if (!products || !products.length) {
+            if (!items || !items.length) {
                 obj.id = 1;
                 await fs.promises.writeFile(this.file, JSON.stringify([obj], null, 2));
 
                 return obj.id.toString();
             }
 
-            const lastProduct = products.slice(-1);
-            obj.id = parseInt(lastProduct[0]?.id) + 1;
+            const lastItem = items.slice(-1);
+            obj.id = parseInt(lastItem[0]?.id) + 1;
             obj.timestamp = Date.now();
             
-            const addProduct = [...products, obj];
-            await fs.promises.writeFile(this.file, JSON.stringify(addProduct, null, 2));
+            const addItem = [...items, obj];
+            await fs.promises.writeFile(this.file, JSON.stringify(addItem, null, 2));
 
             return obj.id.toString();
         } catch (err) {
@@ -32,14 +32,14 @@ module.exports = class Controller {
 
     async getById(id) {
         try {
-            const products = await this.getAll();
+            const items = await this.getAll();
 
-            if (!products) {
+            if (!items) {
                 return error;
             }
 
-            const product = products.find(product => product.id === id);
-            return product ? product : error;
+            const item = items.find(item => item.id === id);
+            return item ? item : error;
         } catch (err) {
             throw new Error('Ocrrió un error obteniendo el producto.', err);
         }
@@ -47,8 +47,8 @@ module.exports = class Controller {
 
     async getAll() {
         try {
-            const products = await fs.promises.readFile(this.file, 'utf-8');
-            return products ? JSON.parse(products) : null;
+            const items = await fs.promises.readFile(this.file, 'utf-8');
+            return items ? JSON.parse(items) : null;
         } catch(err) {
             throw new Error('Ocurrió un error obteniendo los productos.', err);
         }
@@ -56,14 +56,14 @@ module.exports = class Controller {
 
     async deleteById(id) {
         try {
-            const products = await this.getAll();
+            const items = await this.getAll();
 
-            if (!products) {
+            if (!items) {
                 return;
             }
 
-            const productsFiltered = products.filter(product => product.id !== id);
-            await fs.promises.writeFile(this.file, JSON.stringify(productsFiltered, null, 2));
+            const itemsFiltered = items.filter(item => item.id !== id);
+            await fs.promises.writeFile(this.file, JSON.stringify(itemsFiltered, null, 2));
         } catch (err) {
             throw new Error('Ocurrió un error eliminando el producto.', err);
         }
@@ -82,22 +82,22 @@ module.exports = class Controller {
     async update(id, newData) {
         try {
             const { nombre, price, foto } = newData;
-            const productId = id;
+            const itemId = id;
 
-            const product = await this.getById(productId);
-            const products = await this.getAll();
+            const item = await this.getById(itemId);
+            const items = await this.getAll();
         
-            if(product?.id){
-                products.forEach(product => {
-                    const id = product.id;
-                    if(productId === id){
-                        product.nombre = nombre;
-                        product.price = price;
-                        product.foto = foto;
+            if(item?.id){
+                items.forEach(item => {
+                    const id = item.id;
+                    if(itemId === id){
+                        item.nombre = nombre;
+                        item.price = price;
+                        item.foto = foto;
                     }
                 });
 
-            await fs.promises.writeFile(this.file, JSON.stringify(products, null, 2));
+            await fs.promises.writeFile(this.file, JSON.stringify(items, null, 2));
             } else {
                 return error;
             }
@@ -106,3 +106,5 @@ module.exports = class Controller {
         }
       };
 }
+
+export default fileController;

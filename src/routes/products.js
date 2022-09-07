@@ -1,13 +1,12 @@
-const express = require('express');
-const productsRouter = express.Router();
+import express from 'express';
+import productsDao from '../daos/index.js';
 
-const controller = require('../controllers/products');
-const productos = new controller('./volumes/products.txt');
+const productsRouter = express.Router();
 
 const error = { error: 'Producto no encontrado' };
 
 productsRouter.get("/", (req, res) => {
-  productos.getAll()
+  productsDao.getAll()
     .then(response => {
       res.status(200).send(response);
     })
@@ -19,7 +18,7 @@ productsRouter.get("/", (req, res) => {
   productsRouter.get("/:id", (req, res) => {
     const productId = parseInt(req?.params?.id);
 
-    productos.getById(productId)
+    productsDao.getById(productId)
       .then(response => {
         res.status(200).send(response);
       })
@@ -40,7 +39,7 @@ productsRouter.get("/", (req, res) => {
     } else {
       const productId = parseInt(req?.params?.id);
 
-      productos.deleteById(productId)
+      productsDao.deleteById(productId)
         .then(response => {
           res.status(202).send(response);
         })
@@ -52,7 +51,6 @@ productsRouter.get("/", (req, res) => {
 
   productsRouter.post("/", (req, res) => {
     if (!res.admin) {
-
       const authError = { 
         error: -1,
         method: req.method,
@@ -61,7 +59,7 @@ productsRouter.get("/", (req, res) => {
 
       res.status(403).send(authError)
     } else {
-      productos.save(req.body)
+      productsDao.save(req.body)
         .then(response => {
           res.status(201).send(response);
         })
@@ -83,7 +81,7 @@ productsRouter.get("/", (req, res) => {
     } else {
       const productId = parseInt(req?.params?.id);
     
-      productos.update(productId, req.body)
+      productsDao.update(productId, req.body)
         .then(response => {
           res.status(200).send(response);
         })
@@ -93,4 +91,4 @@ productsRouter.get("/", (req, res) => {
     }
   });
 
-module.exports = productsRouter;
+export default productsRouter;

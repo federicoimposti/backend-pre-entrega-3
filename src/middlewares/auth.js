@@ -1,7 +1,7 @@
-module.exports = {
-    auth: function(req, res, next){
-        const admin = false;
-        res.admin = admin;
-        next();
-    }
+const auth = (req, res, next ) => {
+    const admin = true;
+    res.admin = admin;
+    next();
 }
+
+export default auth;

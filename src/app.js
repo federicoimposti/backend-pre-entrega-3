@@ -1,10 +1,11 @@
-const express = require('express');
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
+import { router } from './routes/index.js';
+import auth from './middlewares/auth.js';
+
 const app = express();
-const router = require('./routes');
-const { auth } = require('./middlewares/auth');
-
-require('dotenv').config()
-
 const PORT = process.env.PORT || 8080;
 
 app.use(express.static("public"));

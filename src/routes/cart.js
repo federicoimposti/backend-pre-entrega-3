@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const carritoRouter = express.Router();
 
-const controller = require('../controllers/cart');
+import controller from '../controllers/cart.js';
 const carrito = new controller('./volumes/cart.txt');
 
 const error = { error: 'carrito no encontrado' };
@@ -88,4 +88,4 @@ carritoRouter.get("/", (req, res) => {
       })
   });
 
-module.exports = carritoRouter;
+export { carritoRouter };

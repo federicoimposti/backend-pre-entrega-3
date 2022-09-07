@@ -1,9 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const productsRouter = require('./products');
-const carritoRouter = require('./cart');
+import express from 'express';
+
+let router = express.Router();
+
+import productsRouter from './products.js';
+//import carritoRouter from './cart.js';
 
 router.use('/productos', productsRouter);
-router.use('/carrito', carritoRouter);
+// router.use('/carrito', carritoRouter);
 
-module.exports = router;
+export { router };
