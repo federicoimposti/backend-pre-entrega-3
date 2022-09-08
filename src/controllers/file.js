@@ -81,7 +81,7 @@ class fileController {
 
     async update(id, newData) {
         try {
-            const { nombre, price, foto } = newData;
+            const { title, price, thumbnail } = newData;
             const itemId = id;
 
             const item = await this.getById(itemId);
@@ -91,9 +91,9 @@ class fileController {
                 items.forEach(item => {
                     const id = item.id;
                     if(itemId === id){
-                        item.nombre = nombre;
+                        item.title = title;
                         item.price = price;
-                        item.foto = foto;
+                        item.thumbnail = thumbnail;
                     }
                 });
 
@@ -105,6 +105,77 @@ class fileController {
             throw new Error ('Ocurrió un error actualizando el producto.', err);
         }
       };
+
+      async deleteByIdCartAndIdProduct(cartId, productId) {
+        try {
+            const productIdFormatted = parseInt(productId);
+            const carts = await this.getAll();
+            const cart = carts.find(cart => cart.id === cartId);
+
+            if (!cart) {
+                return error;
+            }
+            
+            const cartsFiltered = carts.map(cartItem => {
+                if(cartItem.id == cartId) {
+                    const productsFiltered = cartItem.productos.filter(product => product.id != productIdFormatted );
+                    const cartFiltered = {
+                        timestamp: cartItem?.timestamp,
+                        id: cartItem?.id,
+                        products: productsFiltered,
+                    }
+
+                    return cartFiltered;
+                }
+
+                return cartItem ? cartItem : [];
+            });
+
+            await fs.promises.writeFile(this.file, JSON.stringify(cartsFiltered, null, 2));
+        } catch (err) {
+            throw new Error('Ocurrió un error al guardar el archivo.', err);
+        }
+    }
+
+    async getProductsInCart(id) {
+        try {
+            const cart = await this.getById(id);            
+            const productsInCart = cart.productos;
+
+            if(!productsInCart?.length){
+                return error;
+            }
+
+            return productsInCart ?? null;
+        } catch(err) {
+            throw new Error('Ocurrió un error obteniendo los carritos.', err);
+        }
+    }
+
+    async saveProductInCart(obj, id) {
+        try {
+            const carts = await this.getAll();
+            const cart = carts.find(cart => cart.id === id);    
+
+            if (!cart) {
+                return error;
+            }
+
+            obj.timestamp = Date.now();
+
+            carts.forEach(cartItem => {
+                if(cartItem.id == id) {
+                    cartItem.productos.push(obj);
+                }
+            });
+
+            await fs.promises.writeFile(this.file, JSON.stringify(carts, null, 2));
+
+            return obj.id?.toString();
+        } catch (err) {
+            throw new Error('Ocurrió un error al guardar el archivo.', err);
+        }
+    }
 }
 
 export default fileController;

@@ -1,13 +1,12 @@
 import express from 'express';
-const carritoRouter = express.Router();
+import { cartDao } from '../daos/index.js';
 
-import controller from '../controllers/cart.js';
-const carrito = new controller('./volumes/cart.txt');
+const cartRouter = express.Router();
 
 const error = { error: 'carrito no encontrado' };
 
-carritoRouter.get("/", (req, res) => {
-  carrito.getAll()
+cartRouter.get("/", (req, res) => {
+  cartDao.getAll()
     .then(response => {
       res.status(200).send(response);
     })
@@ -16,10 +15,10 @@ carritoRouter.get("/", (req, res) => {
     })
   });
 
-  carritoRouter.get("/:id/productos", (req, res) => {
+  cartRouter.get("/:id/productos", (req, res) => {
     const cartId = parseInt(req?.params?.id);
 
-    carrito.getProductsInCart(cartId)
+    cartDao.getProductsInCart(cartId)
       .then(response => {
         res.status(200).send(response);
       })
@@ -28,10 +27,10 @@ carritoRouter.get("/", (req, res) => {
       })
   });
 
-  carritoRouter.delete("/:id", (req, res) => {
+  cartRouter.delete("/:id", (req, res) => {
     const cartId = parseInt(req?.params?.id);
 
-    carrito.deleteById(cartId)
+    cartDao.deleteById(cartId)
       .then(response => {
         res.status(202).send(response);
       })
@@ -40,11 +39,11 @@ carritoRouter.get("/", (req, res) => {
       })
   });
 
-  carritoRouter.delete("/:id/productos/:id_prod", (req, res) => {
+  cartRouter.delete("/:id/productos/:id_prod", (req, res) => {
     const cartId = parseInt(req?.params?.id);
     const productId = parseInt(req?.params?.id_prod);
 
-    carrito.deleteByIdCartAndIdProduct(cartId, productId)
+    cartDao.deleteByIdCartAndIdProduct(cartId, productId)
       .then(response => {
         res.status(202).send(response);
       })
@@ -53,8 +52,8 @@ carritoRouter.get("/", (req, res) => {
       })
   });
 
-  carritoRouter.post("/", (req, res) => {
-    carrito.save(req.body)
+  cartRouter.post("/", (req, res) => {
+    cartDao.save(req.body)
       .then(response => {
         res.status(201).send(response);
       })
@@ -63,11 +62,11 @@ carritoRouter.get("/", (req, res) => {
       })
   });
 
-  carritoRouter.post("/:id/productos", (req, res) => {
+  cartRouter.post("/:id/productos", (req, res) => {
  
     const cartId = parseInt(req?.params?.id);
 
-    carrito.saveProductInCart(req.body, cartId)
+    cartDao.saveProductInCart(req.body, cartId)
       .then(response => {
         res.status(201).send(response);
       })
@@ -76,10 +75,10 @@ carritoRouter.get("/", (req, res) => {
       })
   });
 
-  carritoRouter.put("/:id", (req, res) => {
+  cartRouter.put("/:id", (req, res) => {
     const cartId = parseInt(req?.params?.id);
     
-    carrito.update(cartId, req.body)
+    cartDao.update(cartId, req.body)
       .then(response => {
         res.status(200).send(response);
       })
@@ -88,4 +87,4 @@ carritoRouter.get("/", (req, res) => {
       })
   });
 
-export { carritoRouter };
+export default cartRouter;
