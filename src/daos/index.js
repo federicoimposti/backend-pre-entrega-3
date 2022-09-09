@@ -3,6 +3,7 @@ dotenv.config();
 
 import fileController from './products/file.js';
 import FileCartController from './cart/file.js';
+import mongodbDaoProductsController from './products/mongodb.js';
 
 let productsDao;
 let cartDao;
@@ -11,6 +12,10 @@ switch (process.env.PERS) {
     case 'file':
         productsDao = new fileController('./volumes/products.txt');
         cartDao = new FileCartController('./volumes/cart.txt');
+        break;
+
+    case 'mongodb':
+        productsDao = new mongodbDaoProductsController();
         break;
 
     default:
