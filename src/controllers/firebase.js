@@ -77,9 +77,9 @@ class firebaseProductsController {
     async update(id, newData) {
         try {
             const idFormatted = id.toString();
-            const itemToDeleted = await this.query.where('codigo', '==', idFormatted).get();
+            const itemToUpdate = await this.query.where('codigo', '==', idFormatted).get();
 
-            itemToDeleted.forEach(item => {
+            itemToUpdate.forEach(item => {
                 item.ref.set(newData);
             });
         } catch (err) {
@@ -89,17 +89,25 @@ class firebaseProductsController {
 
       async deleteByIdCartAndIdProduct(cartId, productId) {
         try {
-            const cart = await this.schema.findOne({ id: cartId });
+            const itemSnapshot = await this.query.where('id', '==', cartId).get();
             const productIdFormatted = productId.toString();
 
-            if (!cart) {
+            const item = [];
+
+            itemSnapshot.forEach(doc => {
+                item.push({id: doc.id, ...doc.data()});
+            })
+
+            if (!item) {
                 return error;
             }
-            
-            cart.updateOne(({$id: cartId}, { $pull: { productos: { id: productIdFormatted} }}), (error) => {
-                if (error) {
-                    console.log(error);
-                }
+
+            item[0].productos = item[0]?.productos?.filter(producto => producto.id !== productIdFormatted);
+
+            const itemToRemoveSnapshot = await this.query.where('id', '==', cartId).get();
+
+            itemToRemoveSnapshot.forEach(element => {
+                element.ref.set(item[0]);
             });
         } catch (err) {
             throw new Error('Ocurrió un error al guardar el archivo.', err);
@@ -108,14 +116,19 @@ class firebaseProductsController {
 
     async getProductsInCart(id) {
         try {
-            const cart = await this.schema.findOne({ id })
-            const productsInCart = cart.productos;
+            const itemSnapshot = await this.query.where('id', '==', id).get();
 
-            if(!productsInCart?.length){
+            const item = [];
+
+            itemSnapshot.forEach(doc => {
+                item.push({id: doc.id, ...doc.data()});
+            })
+
+            if (!item || !item.length) {
                 return error;
             }
 
-            return productsInCart;
+            return item[0].productos ? item[0].productos : error;
         } catch(err) {
             throw new Error('Ocurrió un error obteniendo los carritos.', err);
         }
@@ -123,18 +136,24 @@ class firebaseProductsController {
 
     async saveProductInCart(obj, id) {
         try {
-            const item = await this.schema.findOne({ id: id })
+            const itemSnapshot = await this.query.where('id', '==', id).get();
+
+            const item = [];
+
+            itemSnapshot.forEach(doc => {
+                item.push({id: doc.id, ...doc.data()});
+            })
 
             if (!item) {
                 return error;
             }
 
-            obj.timestamp = Date.now();
+            item[0]?.productos?.push(obj);
 
-            item.updateOne(({$id: id}, { $push: { productos: obj }}), (error) => {
-                if (error) {
-                    console.log(error);
-                }
+            const itemToUpdateSnapshot = await this.query.where('id', '==', id).get();
+
+            itemToUpdateSnapshot.forEach(element => {
+                element.ref.set(item[0]);
             });
         } catch (err) {
             throw new Error('Ocurrió un error al guardar el archivo.', err);

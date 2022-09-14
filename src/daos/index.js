@@ -6,7 +6,7 @@ import FileCartController from './cart/file.js';
 import mongodbDaoProductsController from './products/mongodb.js';
 import mongodbDaoCartController from './cart/mongodb.js';
 import firebaseDaoProductsController from './products/firebase.js';
-import firebaseDaoCartController from './cart/mongodb.js';
+import firebaseDaoCartController from './cart/firebase.js';
 
 let productsDao;
 let cartDao;
@@ -24,6 +24,7 @@ switch (process.env.PERS) {
     
     case 'firebase':
         productsDao = new firebaseDaoProductsController();
+        cartDao = new firebaseDaoCartController();
     break;
 
     default:
