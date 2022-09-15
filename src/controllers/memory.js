@@ -1,30 +1,29 @@
 import fs from 'fs';
 const error = { error: 'Producto no encontrado' };
 
-class fileController {
-    constructor(file) {
-        this.file = file;
+class memoryController {
+    constructor(memory) {
+        this.memory = memory;
     }
 
     async save(obj) {
         try {
             const items = await this.getAll();
+            obj.timestamp = Date.now();
 
             if (!items || !items.length) {
                 obj.id = 1;
-                await fs.promises.writeFile(this.file, JSON.stringify([obj], null, 2));
+                this.memory.push(obj);
 
-                return obj.id.toString();
+                return this.memory;
             }
 
             const lastItem = items.slice(-1);
             obj.id = parseInt(lastItem[0]?.id) + 1;
-            obj.timestamp = Date.now();
             
             const addItem = [...items, obj];
-            await fs.promises.writeFile(this.file, JSON.stringify(addItem, null, 2));
-
-            return obj.id.toString();
+            this.memory = addItem;
+            return addItem;
         } catch (err) {
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
@@ -47,8 +46,8 @@ class fileController {
 
     async getAll() {
         try {
-            const items = await fs.promises.readFile(this.file, 'utf-8');
-            return items ? JSON.parse(items) : null;
+            const items = this.memory;
+            return items ? items : null;
         } catch(err) {
             throw new Error('Ocurrió un error obteniendo los productos.', err);
         }
@@ -63,7 +62,7 @@ class fileController {
             }
 
             const itemsFiltered = items.filter(item => item.id !== id);
-            await fs.promises.writeFile(this.file, JSON.stringify(itemsFiltered, null, 2));
+            this.memory = itemsFiltered;
         } catch (err) {
             throw new Error('Ocurrió un error eliminando el producto.', err);
         }
@@ -88,7 +87,7 @@ class fileController {
                     }
                 });
 
-            await fs.promises.writeFile(this.file, JSON.stringify(items, null, 2));
+            this.memory = items;
             } else {
                 return error;
             }
@@ -122,7 +121,7 @@ class fileController {
                 return cartItem ? cartItem : [];
             });
 
-            await fs.promises.writeFile(this.file, JSON.stringify(cartsFiltered, null, 2));
+            this.memory = cartsFiltered;
         } catch (err) {
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
@@ -160,7 +159,7 @@ class fileController {
                 }
             });
 
-            await fs.promises.writeFile(this.file, JSON.stringify(carts, null, 2));
+            this.memory = carts;
 
             return obj.id?.toString();
         } catch (err) {
@@ -169,4 +168,4 @@ class fileController {
     }
 }
 
-export default fileController;
+export default memoryController;

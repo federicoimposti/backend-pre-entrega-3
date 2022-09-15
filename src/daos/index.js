@@ -3,6 +3,8 @@ dotenv.config();
 
 import fileController from './products/file.js';
 import FileCartController from './cart/file.js';
+import memoryController from './products/memory.js';
+import memoryCartController from './cart/memory.js';
 import mongodbDaoProductsController from './products/mongodb.js';
 import mongodbDaoCartController from './cart/mongodb.js';
 import firebaseDaoProductsController from './products/firebase.js';
@@ -25,6 +27,11 @@ switch (process.env.PERS) {
     case 'firebase':
         productsDao = new firebaseDaoProductsController();
         cartDao = new firebaseDaoCartController();
+    break;
+
+    case 'memory':
+        productsDao = new memoryController();
+        cartDao = new memoryCartController();
     break;
 
     default:
