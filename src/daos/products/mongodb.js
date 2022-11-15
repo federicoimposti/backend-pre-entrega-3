@@ -1,7 +1,7 @@
-import MongodbProductsController from'../../controllers/mongodb.js';
+import MongodbController from'../../controllers/mongodb.js';
 import { Products } from "../../controllers/models/Products.js"; 
 
-class mongodbDaoProductsController extends MongodbProductsController {
+class mongodbDaoProductsController extends MongodbController {
     constructor() {
         super(Products);
     }

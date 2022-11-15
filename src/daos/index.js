@@ -7,11 +7,13 @@ import memoryController from './products/memory.js';
 import memoryCartController from './cart/memory.js';
 import mongodbDaoProductsController from './products/mongodb.js';
 import mongodbDaoCartController from './cart/mongodb.js';
+import mongodbDaoUsersController from './users/mongodb.js';
 import firebaseDaoProductsController from './products/firebase.js';
 import firebaseDaoCartController from './cart/firebase.js';
 
 let productsDao;
 let cartDao;
+let usersDao;
 
 switch (process.env.PERS) {
     case 'file':
@@ -22,6 +24,7 @@ switch (process.env.PERS) {
     case 'mongodb':
         productsDao = new mongodbDaoProductsController();
         cartDao = new mongodbDaoCartController();
+        usersDao = new mongodbDaoUsersController();
         break;
     
     case 'firebase':
@@ -38,4 +41,4 @@ switch (process.env.PERS) {
         break;
 }
 
-export { productsDao, cartDao };
+export { productsDao, cartDao, usersDao };

@@ -1,7 +1,9 @@
-const auth = (req, res, next ) => {
-    const admin = true;
-    res.admin = admin;
-    next();
-}
+const auth = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      res.render("pages/login");
+    }
+  };
 
 export default auth;

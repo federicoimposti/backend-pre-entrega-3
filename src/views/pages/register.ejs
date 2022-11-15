@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head'); %>
+        <title>Coderhouse Backend - Ecommerce - Registro</title>
+    </head>
+    <body>
+        <div class="container">
+            <form class="login-form" action="/register" method="POST" enctype="multipart/form-data">
+                <input type="text" name="username" id="username" placeholder="Username" required>                    
+                <input type="text" name="email" id="email" placeholder="Email" required>
+                <input type="password" name="password" id="password" placeholder="Password" required>  
+                <input type="text" name="telefono" id="telefono" placeholder="Teléfono" required>                    
+                <input type="text" name="direccion" id="direccion" placeholder="Dirección" required>    
+                <input type="text" name="edad" id="edad" placeholder="Edad" required>
+                <input type="file" name="myFile" id="image" placeholder="Imágen" required>
+                <input type="submit" value="Registro">             
+            </form>
+            <a href="/login">Login</a>  
+        </div>
+    </body>
+</html>
