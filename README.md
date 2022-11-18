@@ -1,4 +1,4 @@
-## Segunda pre-entrega Backend Coderhouse
+## Tercera pre-entrega Backend Coderhouse
 
  1. Clonar el proyecto.
  2. Realizar la instalación de dependencias ejecutando `npm i`
