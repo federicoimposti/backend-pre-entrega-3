@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   edad: { type: String, required: true, max: 100 },
   image: { type: String, required: true, max: 100 },
   direccion: { type: String, required: true, max: 100 },
+  carrito: { type: String, required: true, max: 100 }
 });
 
 export const User = mongoose.model('users', userSchema);

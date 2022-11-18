@@ -1,0 +1,27 @@
+<div class="products-list-wrapper">
+    <% if (cart.length <= 0) { %>
+    <tr>
+        <td colspan="3">No añadió ningún producto al carrito.</td>
+    </tr>
+    <% } else { %>
+        <div><b>Nuevo pedido realizado</b></div>
+        <table class="tg">
+            <thead>
+              <tr>
+                <th class="tg-0pky">Titulo</th>
+                <th class="tg-0pky">Precio</th>
+                <th class="tg-0pky">Url</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% cart.forEach(function(cartProduct) { %>
+                    <tr>
+                        <td class="tg-0pky"><img class="product-image" src=<%= cartProduct.thumbnail %> /></td>
+                        <td class="tg-0pky"><p><%= cartProduct.title %></p></td>
+                        <td class="tg-0pky"><p><%= cartProduct.price %></p></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</div>

@@ -1,9 +1,9 @@
 <header class="navbar animate__headShake">
-    <div class="brand focus-in-expand">Animista</div>
+    <div class="brand focus-in-expand"><a href="/">Animista</a></div>
     <div class="main-menu">
         <ul>
-            <li>Productos</li>
-            <li>Carrito</li>
+            <li><a href="/">Productos</a></li>
+            <li><a href="/cart">Carrito</a></li>
         </ul>
         <div>
             <ul>
@@ -13,7 +13,7 @@
                             <% if (image) { %>
                                 <img src="profiles/img/<%= image %>" />
                             <% } %>
-                            <p><%= user %><p>
+                            <p><a href="/user"><%= user %></a><p>
                         </div>
                     <% } %>
                 </li>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../partials/head'); %>
+        <title>Coderhouse Backend - Ecommerce</title>
+    </head>
+    <body>
+        <div class="container">
+            <%- include('../partials/header'); %>
+            <div class="main-container">
+                <% if (image) { %>
+                    <img src="profiles/img/<%= image %>" />
+                <% } %>
+                <p>Usuario: <%= user %></p>
+                <p>Email: <%= email %></p>
+                <p>Teléfono: <%= telefono %></p>
+                <p>Dirección <%= direccion %></p>
+                <p>Edad: <%= edad %></p>
+            </div>
+        </div>
+    </body>
+    <script src="main.js"></script>
+</html>

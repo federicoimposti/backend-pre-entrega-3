@@ -1,5 +1,3 @@
-const socket = io.connect();
-
 function render(data) {
     const html = data.map((elem, i, arr) => {
         return(
@@ -41,11 +39,27 @@ const renderProductsList = (products) => {
     })
 }
 
-socket.on('products', (data) => {
-    renderProductsList(data)
-        .then(html => {
-            document.getElementById('products').innerHTML = html;
-        })
-});
+const handleOnClicCart = async (productId, id) => {
+    const productData = await fetch(`/api/productos/${productId}`);
+    const productResponse = await productData.json();
 
-socket.on('messages', function(data) { render(data); });
+    await fetch(`/api/carrito/${id}/productos`, {
+        method: 'POST',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(productResponse)
+    });
+}
+
+const handleFinishBuy = async (cartId, email, user) => {
+    await fetch(`/cart`, {
+        method: 'POST',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ carrito: cartId, email, user })
+    });
+}
