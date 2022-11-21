@@ -4,6 +4,7 @@ import { User } from '../../controllers/models/User.js';
 import { cartDao } from '../../daos/index.js';
 import transporter from '../../middlewares/nodemailer.js';
 import ejs from 'ejs';
+import clientTwilio from '../../middlewares/twilio.js';
 
 const cartRouter = express.Router();
 
@@ -39,6 +40,18 @@ cartRouter.post("/", async (req, res) => {
     }
  
     await transporter.sendMail(mailOptions);
+    await clientTwilio.messages.create({
+      body: 'Su pedido ha sido recibido y se encuentra en progreso.',
+      from: '+19108125307',
+      to: '+541144932679'
+    });
+
+    await clientTwilio.messages.create({
+      from: 'whatsapp:+14155238886',
+      body: `Nuevo pedido de ${user} - ${email}`,
+      to: 'whatsapp:+5491144932679'
+    });
+
     res.status(201).send('ok');
   } catch (e) {
     console.log('Error al realizar el pedido.', e);

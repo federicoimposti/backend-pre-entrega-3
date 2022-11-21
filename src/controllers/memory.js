@@ -1,4 +1,5 @@
 import fs from 'fs';
+import logger from '../logs/logger.js';
 const error = { error: 'Producto no encontrado' };
 
 class memoryController {
@@ -25,6 +26,7 @@ class memoryController {
             this.memory = addItem;
             return addItem;
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }
@@ -40,6 +42,7 @@ class memoryController {
             const item = items.find(item => item.id === id);
             return item ? item : error;
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocrrió un error obteniendo el producto.', err);
         }
     }
@@ -49,6 +52,7 @@ class memoryController {
             const items = this.memory;
             return items ? items : null;
         } catch(err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error obteniendo los productos.', err);
         }
     }
@@ -64,6 +68,7 @@ class memoryController {
             const itemsFiltered = items.filter(item => item.id !== id);
             this.memory = itemsFiltered;
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error eliminando el producto.', err);
         }
         
@@ -92,6 +97,7 @@ class memoryController {
                 return error;
             }
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error ('Ocurrió un error actualizando el producto.', err);
         }
       };
@@ -123,6 +129,7 @@ class memoryController {
 
             this.memory = cartsFiltered;
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }
@@ -138,6 +145,7 @@ class memoryController {
 
             return productsInCart ?? null;
         } catch(err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error obteniendo los carritos.', err);
         }
     }
@@ -163,6 +171,7 @@ class memoryController {
 
             return obj.id?.toString();
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }

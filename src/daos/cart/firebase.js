@@ -1,4 +1,5 @@
 import firebaseProductsController from'../../controllers/firebase.js';
+import logger from '../../logs/logger.js';
 
 class firebaseDaoProductsController extends firebaseProductsController {
     constructor() {
@@ -28,6 +29,7 @@ class firebaseDaoProductsController extends firebaseProductsController {
 
             return await super.save(cart);
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }
@@ -40,6 +42,7 @@ class firebaseDaoProductsController extends firebaseProductsController {
                 item.ref.delete();
             });
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error eliminando el producto.', err);
         }
     }

@@ -1,4 +1,5 @@
 import admin from 'firebase-admin';
+import logger from '../logs/logger.js';
 import serviceAccount from "../../config/coderhouse-backend-9402e-firebase-adminsdk-xcfso-e44f574149.js";
 
 const error = { error: 'Producto no encontrado' };
@@ -22,6 +23,7 @@ class firebaseProductsController {
             const dataToSave = await this.query.add(obj);
             return {...obj, id: dataToSave.id};
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }
@@ -43,6 +45,7 @@ class firebaseProductsController {
 
             return item ? item : error;
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocrrió un error obteniendo el producto.', err);
         }
     }
@@ -57,6 +60,7 @@ class firebaseProductsController {
 
             return data;
         } catch(err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error obteniendo los productos.', err);
         }
     }
@@ -70,6 +74,7 @@ class firebaseProductsController {
                 item.ref.delete();
             });
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error eliminando el producto.', err);
         }
     }
@@ -83,6 +88,7 @@ class firebaseProductsController {
                 item.ref.set(newData);
             });
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error ('Ocurrió un error actualizando el producto.', err);
         }
       };
@@ -110,6 +116,7 @@ class firebaseProductsController {
                 element.ref.set(item[0]);
             });
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }
@@ -130,6 +137,7 @@ class firebaseProductsController {
 
             return item[0].productos ? item[0].productos : error;
         } catch(err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error obteniendo los carritos.', err);
         }
     }
@@ -156,6 +164,7 @@ class firebaseProductsController {
                 element.ref.set(item[0]);
             });
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }

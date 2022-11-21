@@ -1,4 +1,5 @@
 import memory from'../../controllers/memory.js';
+import logger from '../../logs/logger.js';
 import fs from 'fs';
 
 class MemoryCartController extends memory {
@@ -31,6 +32,7 @@ class MemoryCartController extends memory {
 
             return cart.id.toString();
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }

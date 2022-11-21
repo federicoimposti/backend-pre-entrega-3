@@ -1,3 +1,4 @@
+import logger from '../../logs/logger.js';
 import file from'../../controllers/file.js';
 import fs from 'fs';
 
@@ -31,6 +32,7 @@ class FileCartController extends file {
 
             return cart.id.toString();
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }

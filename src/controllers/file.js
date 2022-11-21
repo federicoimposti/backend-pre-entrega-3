@@ -1,4 +1,6 @@
 import fs from 'fs';
+import logger from '../logs/logger.js';
+
 const error = { error: 'Producto no encontrado' };
 
 class fileController {
@@ -26,6 +28,7 @@ class fileController {
 
             return obj.id.toString();
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }
@@ -41,6 +44,7 @@ class fileController {
             const item = items.find(item => item.id === id);
             return item ? item : error;
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocrrió un error obteniendo el producto.', err);
         }
     }
@@ -50,6 +54,7 @@ class fileController {
             const items = await fs.promises.readFile(this.file, 'utf-8');
             return items ? JSON.parse(items) : null;
         } catch(err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error obteniendo los productos.', err);
         }
     }
@@ -65,6 +70,7 @@ class fileController {
             const itemsFiltered = items.filter(item => item.id !== id);
             await fs.promises.writeFile(this.file, JSON.stringify(itemsFiltered, null, 2));
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error eliminando el producto.', err);
         }
         
@@ -93,6 +99,7 @@ class fileController {
                 return error;
             }
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error ('Ocurrió un error actualizando el producto.', err);
         }
       };
@@ -124,6 +131,7 @@ class fileController {
 
             await fs.promises.writeFile(this.file, JSON.stringify(cartsFiltered, null, 2));
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }
@@ -139,6 +147,7 @@ class fileController {
 
             return productsInCart ?? null;
         } catch(err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error obteniendo los carritos.', err);
         }
     }
@@ -164,6 +173,7 @@ class fileController {
 
             return obj.id?.toString();
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }

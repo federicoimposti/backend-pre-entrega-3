@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import logger from '../logs/logger.js';
 import { User } from './models/User.js'; 
 import bcrypt from 'bcrypt';
 
@@ -10,6 +11,7 @@ try {
     mongoose.connect(uri);
     console.log('Successful database connection');
   } catch (err) {
+    logger.error(`Error: ${err}`);
     throw new Error('Ocurrió un error al conectarse a la base de datos.', err);
   }  
 
@@ -26,6 +28,7 @@ class MongodbController {
             const data = await newObj.save();
             return data;
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }
@@ -41,6 +44,7 @@ class MongodbController {
             const item = await this.schema.findOne({ codigo: id })
             return item ? item : error;
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocrrió un error obteniendo el producto.', err);
         }
     }
@@ -50,6 +54,7 @@ class MongodbController {
             const items = await this.schema.find({});      
             return items;
         } catch(err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error obteniendo los productos.', err);
         }
     }
@@ -64,6 +69,7 @@ class MongodbController {
 
             return item;
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error eliminando el producto.', err);
         }
     }
@@ -73,6 +79,7 @@ class MongodbController {
             const item = await this.schema.findOneAndUpdate({ codigo: id }, newData);
             return item;
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error ('Ocurrió un error actualizando el producto.', err);
         }
       };
@@ -92,6 +99,7 @@ class MongodbController {
                 }
             });
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }
@@ -107,6 +115,7 @@ class MongodbController {
 
             return productsInCart;
         } catch(err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error obteniendo los carritos.', err);
         }
     }
@@ -127,6 +136,7 @@ class MongodbController {
                 }
             });
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }
@@ -144,7 +154,8 @@ class MongodbController {
             return newUser; 
           } 
         } catch (error) {
-          console.log(error);
+            logger.error(`Error: ${err}`);
+            console.log(error);
         }
       }
 }

@@ -1,5 +1,6 @@
 import express from 'express';
 import { productsDao } from '../../daos/index.js';
+import logger from '../../logs/logger.js';
 
 const productsRouter = express.Router();
 
@@ -11,6 +12,7 @@ productsRouter.get("/", (req, res) => {
       res.status(200).send(response);
     })
     .catch(err => {
+        logger.error(`Error: ${err}`);
         console.log('ocurrió un error al obtener los productos.', err);
     })
   });
@@ -23,6 +25,7 @@ productsRouter.get("/", (req, res) => {
         res.status(200).send(response);
       })
       .catch(err => {
+        logger.error(`Error: ${err}`);
         console.log('ocurrió un error al obtener el producto.', err);
       })
   });
@@ -44,6 +47,7 @@ productsRouter.get("/", (req, res) => {
           res.status(202).send(response);
         })
         .catch(err => {
+          logger.error(`Error: ${err}`);
           console.log('ocurrió un error al eliminar el producto.', err);
         });
     }
@@ -64,6 +68,7 @@ productsRouter.get("/", (req, res) => {
           res.status(201).send(response);
         })
         .catch(err => {
+            logger.error(`Error: ${err}`);
             console.log('ocurrió un error al guardar el producto.', err);
         })
     }
@@ -86,6 +91,7 @@ productsRouter.get("/", (req, res) => {
           res.status(200).send(response);
         })
         .catch(err => {
+          logger.error(`Error: ${err}`);
           console.log('ocurrió un error al modificar el producto.', err);
         })
     }

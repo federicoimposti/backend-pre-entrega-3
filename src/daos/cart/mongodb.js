@@ -1,5 +1,6 @@
 import MongodbCartController from'../../controllers/mongodb.js';
-import { Cart } from "../../controllers/models/Cart.js"; 
+import { Cart } from "../../controllers/models/Cart.js";
+import logger from '../../logs/logger.js';
 
 class mongodbDaoCartController extends MongodbCartController {
     constructor() {
@@ -25,6 +26,7 @@ class mongodbDaoCartController extends MongodbCartController {
 
             return await super.save(cart);
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error al guardar el archivo.', err);
         }
     }
@@ -39,6 +41,7 @@ class mongodbDaoCartController extends MongodbCartController {
 
             return item;
         } catch (err) {
+            logger.error(`Error: ${err}`);
             throw new Error('Ocurrió un error eliminando el producto.', err);
         }
     }

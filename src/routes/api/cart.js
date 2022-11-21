@@ -1,5 +1,6 @@
 import express from 'express';
 import { cartDao } from '../../daos/index.js';
+import logger from '../../logs/logger.js';
 
 const cartRouter = express.Router();
 
@@ -11,6 +12,7 @@ cartRouter.get("/", (req, res) => {
       res.status(200).send(response);
     })
     .catch(err => {
+        logger.error(`Error: ${err}`);
         console.log('ocurrió un error al obtener los carrito.', err);
     })
   });
@@ -23,6 +25,7 @@ cartRouter.get("/", (req, res) => {
         res.status(200).send(response);
       })
       .catch(err => {
+        logger.error(`Error: ${err}`);
         console.log('ocurrió un error al obtener el carrito.', err);
       })
   });
@@ -35,6 +38,7 @@ cartRouter.get("/", (req, res) => {
         res.status(202).send(response);
       })
       .catch(err => {
+        logger.error(`Error: ${err}`);
         console.log('ocurrió un error al eliminar el carrito.', err);
       })
   });
@@ -48,6 +52,7 @@ cartRouter.get("/", (req, res) => {
         res.status(202).send(response);
       })
       .catch(err => {
+        logger.error(`Error: ${err}`);
         console.log('ocurrió un error al eliminar el producto del carrito.', err);
       })
   });
@@ -58,6 +63,7 @@ cartRouter.get("/", (req, res) => {
         res.status(201).send(response);
       })
       .catch(err => {
+          logger.error(`Error: ${err}`);
           console.log('ocurrió un error al guardar el carrito.', err);
       })
   });
@@ -71,6 +77,7 @@ cartRouter.get("/", (req, res) => {
         res.status(201).send(response);
       })
       .catch(err => {
+          logger.error(`Error: ${err}`);
           console.log('ocurrió un error al guardar el carrito.', err);
       })
   });
@@ -83,6 +90,7 @@ cartRouter.get("/", (req, res) => {
         res.status(200).send(response);
       })
       .catch(err => {
+        logger.error(`Error: ${err}`);
         console.log('ocurrió un error al modificar el carrito.', err);
       })
   });
