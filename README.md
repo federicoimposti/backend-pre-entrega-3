@@ -8,11 +8,15 @@ En el archivo .env al cambiar el valor de `PERS` es posible cambiar el método d
 
  4. Una vez que el proyecto está corriendo, será posible realizar request CRUD en sus distintos métodos de persistencia. Para el caso de peticiones POST de productos, a modo de ejemplo, enviar en el BODY con algún cliente:
 
-	    {
-			    "title": "Cuadrícula",
-	            "description": "Cuadrícula ideal para matemática.",
-	            "codigo": "12311",
-	            "thumbnail": "https://google.com.ar/image/",
-	            "price": "32131",
-	            "stock": "4"
-	     }
+`{
+	"title": "Cuadrícula",
+	"description": "Cuadrícula ideal para matemática.",
+	"codigo": "12311",
+	"thumbnail": "https://google.com.ar/image/",
+	"price": "32131",
+	"stock": "4"
+}`
+
+5. Para ingresar a la vista es necesario ingresar en el entorno local a la url http://localhost:{port}
+
+6. Seguir los flujos de usuario para completar la experiencia. (Login / Register).
