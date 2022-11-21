@@ -5,20 +5,22 @@
     </tr>
     <% } else { %>
         <div><b>Nuevo pedido realizado</b></div>
-        <table class="tg">
+        <table class="tg" style="width: 100%; text-align:left">
             <thead>
               <tr>
-                <th class="tg-0pky">Titulo</th>
+                <th class="tg-0pky">Imágen</th>
+                <th class="tg-0pky">Nombre</th>
                 <th class="tg-0pky">Precio</th>
-                <th class="tg-0pky">Url</th>
+                <th class="tg-0pky">Código</th>
               </tr>
             </thead>
             <tbody>
                 <% cart.forEach(function(cartProduct) { %>
                     <tr>
-                        <td class="tg-0pky"><img class="product-image" src=<%= cartProduct.thumbnail %> /></td>
+                        <td class="tg-0pky"><img style="width: 100px" src=<%= cartProduct.thumbnail %> /></td>
                         <td class="tg-0pky"><p><%= cartProduct.title %></p></td>
                         <td class="tg-0pky"><p><%= cartProduct.price %></p></td>
+                        <td class="tg-0pky"><p><%= cartProduct.codigo %></p></td>
                     </tr>
                 <% }) %>
             </tbody>

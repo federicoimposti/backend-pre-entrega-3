@@ -4,12 +4,13 @@
         <td colspan="3">Carrito vacío.</td>
     </tr>
     <% } else { %>
-        <table class="tg">
+        <table class="tg cart-list">
             <thead>
               <tr>
-                <th class="tg-0pky">Titulo</th>
+                <th class="tg-0pky">Imágen</th>
+                <th class="tg-0pky">Título</th>
                 <th class="tg-0pky">Precio</th>
-                <th class="tg-0pky">Url</th>
+                <th class="tg-0pky">Código</th>
               </tr>
             </thead>
             <tbody>
@@ -17,7 +18,8 @@
                     <tr>
                         <td class="tg-0pky"><img class="product-image" src=<%= cartProduct.thumbnail %> /></td>
                         <td class="tg-0pky"><p><%= cartProduct.title %></p></td>
-                        <td class="tg-0pky"><p><%= cartProduct.price %></p></td>
+                        <td class="tg-0pky"><p>$<%= cartProduct.price %></p></td>
+                        <td class="tg-0pky"><p><%= cartProduct.codigo %></p></td>
                     </tr>
                 <% }) %>
             </tbody>
