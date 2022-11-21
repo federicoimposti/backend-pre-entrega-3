@@ -154,7 +154,7 @@ class MongodbController {
             return newUser; 
           } 
         } catch (error) {
-            logger.error(`Error: ${err}`);
+            logger.error(`Error: ${error}`);
             console.log(error);
         }
       }

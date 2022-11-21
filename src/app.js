@@ -77,7 +77,7 @@ if (cluster.isPrimary && argv?.c) {
    })
 
    server.on("error", error => {
-      logger.error(`Error: ${err}`);
+      logger.error(`Error: ${error}`);
       console.log(`Error en servidor ${error}`)
    });
 }
